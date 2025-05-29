@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+</head>
+<body>
+    <h2>Registro</h2>
+    <form id="formulario">
+        Apellido: <input type="text" id="Apellido"><br>
+        Nombre: <input type="text" id="Nombre"><br>
+        DNI: <input type="number" id="DNI" maxlength="8"><br>
+        Fecha de Nacimiento: <input type="date" id="Fecha"><br>
+        Email: <input type="email" id="Email"><br>
+        <button type="button" id="validar">Validar</button>
+    </form>
+    <button type="button" id="preguntas">Preguntas/Respuestas</button>
+    <div id="respuestas"></div>
+    <script>
+        function soloLetras(texto) {
+            for (var i = 0; i < texto.length; i++) {
+                var c = texto.charAt(i);
+                if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c === ' ')) {
+                    return false;
+                }
+            }
+            return texto.length > 0;
+        }
+        function soloNumeros(texto) {
+            if (texto.length !== 8) return false;
+            for (var i = 0; i < texto.length; i++) {
+                var c = texto.charAt(i);
+                if (!(c >= '0' && c <= '9')) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        function fechaValida(fecha) {
+            if (!fecha) return false;
+            var año = parseInt(fecha.split("-")[0]);
+            return año >= 2006;
+        }
+        function emailValido(email) {
+            return email.includes("@") && email.includes(".");
+        }
+        document.getElementById("validar").onclick = function() {
+            var apellido = document.getElementById("Apellido").value.trim();
+            var nombre = document.getElementById("Nombre").value.trim();
+            var dni = document.getElementById("DNI").value.trim();
+            var fecha = document.getElementById("Fecha").value;
+            var email = document.getElementById("Email").value.trim();
+            if (!soloLetras(apellido)) {
+                alert("Apellido inválido");
+                return;
+            }
+            if (!soloLetras(nombre)) {
+                alert("Nombre inválido");
+                return;
+            }
+            if (!soloNumeros(dni)) {
+                alert("DNI inválido");
+                return;
+            }
+            if (!fechaValida(fecha)) {
+                alert("Fecha inválida");
+                return;
+            }
+            if (!emailValido(email)) {
+                alert("Email inválido");
+                return;
+            }
+            alert("Validación exitosa");
+        };
+        document.getElementById("preguntas").onclick = function() {
+            var r1 = prompt("¿Nacionalidad?");
+            var r2 = prompt("¿Color favorito?");
+            var r3 = prompt("¿Nombre de tu mascota?");
+            var div = document.getElementById("respuestas");
+            div.innerHTML = 
+                "Nacionalidad: " + r1 + "<br>" +
+                "Color favorito: " + r2 + "<br>" +
+                "Nombre de tu mascota: " + r3;
+        };
+    </script>
+</body>
+</html>
